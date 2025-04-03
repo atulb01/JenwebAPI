@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JenwebAPI", "JenwebAPI\JenwebAPI.csproj", "{036B3D05-235F-4785-BD2B-340AF417BD66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{036B3D05-235F-4785-BD2B-340AF417BD66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036B3D05-235F-4785-BD2B-340AF417BD66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036B3D05-235F-4785-BD2B-340AF417BD66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036B3D05-235F-4785-BD2B-340AF417BD66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DFCE318C-660D-41CC-9A65-8C87BB16646E}
+	EndGlobalSection
+EndGlobal
