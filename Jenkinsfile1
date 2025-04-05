@@ -4,29 +4,26 @@ pipeline {
         AZURE_CREDENTIALS_ID = 'azure-service-principal'
         RESOURCE_GROUP = 'rg-jenkins'
         APP_SERVICE_NAME = 'webapijenkins0110'
+        TERRAFORM_PATH = 'C:\\Users\\Atul Sharma\\Downloads\\terraform_1.11.3_windows_386\\terraform.exe'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/atulb01/JenwebAPI.git'
+                git branch: 'master', url: 'https://github.com/atulb01/JenwebAPI.git'
             }
         }
 
         stage('Terraform Init') {
             steps {
-                dir('jenkins_assignment3') {
-                    bat 'terraform init'
-                }
+                bat "\"%TERRAFORM_PATH%\" -chdir=terraform init"
             }
         }
 
         stage('Terraform Plan & Apply') {
             steps {
-                dir('jenkins_assignment3') {
-                    bat 'terraform plan -out=tfplan'
-                    bat 'terraform apply -auto-approve tfplan'
-                }
+                bat "\"%TERRAFORM_PATH%\" -chdir=terraform plan -out=tfplan"
+                bat "\"%TERRAFORM_PATH%\" -chdir=terraform apply -auto-approve tfplan"
             }
         }
 
@@ -58,4 +55,3 @@ pipeline {
         }
     }
 }
-
