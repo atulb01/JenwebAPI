@@ -14,22 +14,17 @@ pipeline {
             }
         }
       stage('Terraform Init') {
-    steps {
-        bat "\"C:\\Users\\Atul Sharma\\Downloads\\terraform_1.11.3_windows_386\\terraform.exe\" -chdir=terraform init"
+           steps {
+                bat '"%TERRAFORM_PATH%" -chdir=terraform init '
+          }
     }
-}
       stage('Terraform Plan & Apply') {
-    steps {
-        bat """
-        \"C:\\Users\\Atul Sharma\\Downloads\\terraform_1.11.3_windows_386\\terraform.exe\" -chdir=terraform apply -auto-approve ^
-          -var \"resource_group_name=flask-rg\" ^
-          -var \"location=East US\" ^
-          -var \"app_service_plan_name=flask-plan\" ^
-          -var \"app_service_name=flask-webapp\"
-        """
-    }
-}
-
+           steps {
+               
+               bat '"%TERRAFORM_PATH%" -chdir=terraform plan -out=tfplan'
+               bat '"%TERRAFORM_PATH%" -chdir=terraform apply -auto-approve tfplan'
+           }
+     }
 
         stage('Build') {
             steps {
