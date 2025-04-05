@@ -1,10 +1,11 @@
 pipeline {
     agent any
+
     environment {
         AZURE_CREDENTIALS_ID = 'azure-service-principal'
         RESOURCE_GROUP = 'rg-jenkins'
         APP_SERVICE_NAME = 'webapijenkins0110'
-        TERRAFORM_PATH = '"C:\\Users\\Atul Sharma\\Downloads\\terraform_1.11.3_windows_386\\terraform.exe"'
+        TERRAFORM_PATH = 'C:\\Users\\Atul Sharma\\Downloads\\terraform_1.11.3_windows_386\\terraform.exe'
     }
 
     stages {
@@ -13,18 +14,19 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/atulb01/JenwebAPI.git'
             }
         }
-      stage('Terraform Init') {
-           steps {
-                bat '"%TERRAFORM_PATH%" -chdir=terraform init '
-          }
-    }
-      stage('Terraform Plan & Apply') {
-           steps {
-               
-               bat '"%TERRAFORM_PATH%" -chdir=terraform plan -out=tfplan'
-               bat '"%TERRAFORM_PATH%" -chdir=terraform apply -auto-approve tfplan'
-           }
-     }
+
+        stage('Terraform Init') {
+            steps {
+                bat "\"${env.TERRAFORM_PATH}\" -chdir=terraform init"
+            }
+        }
+
+        stage('Terraform Plan & Apply') {
+            steps {
+                bat "\"${env.TERRAFORM_PATH}\" -chdir=terraform plan -out=tfplan"
+                bat "\"${env.TERRAFORM_PATH}\" -chdir=terraform apply -auto-approve tfplan"
+            }
+        }
 
         stage('Build') {
             steps {
@@ -36,10 +38,10 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                withCredentials([azureServicePrincipal(credentialsId: AZURE_CREDENTIALS_ID)]) {
-                    bat "az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID"
-                    bat "powershell Compress-Archive -Path ./publish/* -DestinationPath ./publish.zip -Force"
-                    bat "az webapp deploy --resource-group $RESOURCE_GROUP --name $APP_SERVICE_NAME --src-path ./publish.zip --type zip"
+                withCredentials([azureServicePrincipal(credentialsId: "${env.AZURE_CREDENTIALS_ID}")]) {
+                    bat "az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%"
+                    bat 'powershell Compress-Archive -Path .\\publish\\* -DestinationPath .\\publish.zip -Force'
+                    bat "az webapp deploy --resource-group ${env.RESOURCE_GROUP} --name ${env.APP_SERVICE_NAME} --src-path .\\publish.zip --type zip"
                 }
             }
         }
@@ -47,10 +49,11 @@ pipeline {
 
     post {
         success {
-            echo 'Deployment Successful!'
+            echo '✅ Deployment Successful!'
         }
         failure {
-            echo 'Deployment Failed!'
+            echo '❌ Deployment Failed!'
         }
     }
 }
+
